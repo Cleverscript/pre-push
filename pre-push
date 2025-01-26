@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Checking the name of the branch for which it is being executed push
+
+branch_name="/feature/"
+
+remote="$1"
+url="$2"
+
+zero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')
+
+while read local_ref local_oid remote_ref remote_oid
+do
+	if echo "$local_ref" | grep -q "$branch_name"; then
+		exit 0
+	else
+		echo "\033[33m Branch name must contain \"feature\" - break! \033[0m"
+		exit 1
+	fi
+
+	exit 1
+done
+
+exit 0
